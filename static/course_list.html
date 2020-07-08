@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Listado de Cursos</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+<body>
+
+
+{% if request.user.is_authenticated %}
+
+	<div class="container">	
+		<div class="row">
+			<div class="col-sm-9">
+				<h1>Administración de Cursos - DDOJA</h1>
+				
+				{% if not cursos %}
+					</div>
+			<div class="col-sm-2">
+			<a href="{% url 'courses:create' %}">
+				<button class="btn btn-default btn-info" style="float: right; margin: 25px 0px;">Agregar Curso</button>
+			</a>
+			</div>
+
+			<div class="col-sm-1">
+				<a href="{% url 'logout' %}"><button class="btn btn-danger" style="margin-top: 25px;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button></a>
+			</div>
+
+				{% else %}
+				
+				<p>Seleccione un elemento para ver los <i>detalles del curso</i></p>
+			</div>
+			<div class="col-sm-2">
+			<a href="{% url 'courses:create' %}">
+				<button class="btn btn-default btn-info" style="float: right; margin: 25px 0px;">Agregar Curso</button>
+			</a>
+			</div>
+
+			<div class="col-sm-1">
+				<a href="{% url 'logout' %}"><button class="btn btn-danger" style="margin-top: 25px;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button></a>
+			</div>
+
+		</div>
+	</div>
+
+	
+	<div class="container">	
+		<div class="row">
+			<div class="col-sm-4">
+					<h4>Nombre</h4>
+			</div>
+			<div class="col-sm-3">
+					<h4>Fecha de inicio</h4>
+			</div>
+			<div class="col-sm-3">
+					<h4>Carga lectiva</h4>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="row">
+						
+			{% for curso in cursos %}
+				<div class="col-sm-4">
+					<p>{{ forloop.counter }}. <a href="{{ curso.get_absolute_url }}">{{ curso.nombre }} </a></p>
+				</div>
+				<div class="col-sm-3">
+					<p>{{ curso.fecha_inicio }}</p>
+				</div>
+				<div class="col-sm-3">
+					<p>{{ curso.carga_horaria }} horas </p>
+				</div>
+				<div class="col-sm-2">
+					<a href="{% url 'courses:edit' course_name=curso.slug %}"><button class="btn btn-default">Editar</button></a>
+				</div>				
+			{% endfor %}
+		</div>
+	</div>	
+
+	{% endif %}
+{% else %}
+
+				<h1>Lo sentimos, no tiene permiso para ver esta página. Intente hacer login</h1>
+
+{% endif %}
+
+
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+</body>
+</html>

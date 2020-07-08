@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DDOJA | Listado de Participantes</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+
+</head>
+<body>
+	
+	<div class="container" style="margin-top: 30px; margin-bottom: 30px">
+			
+		<form method="GET" action="">
+			<div class="row">
+				<div class="col-sm-9 col-sm-offset-3">
+					<input class="col-sm-6" type="text" placeholder='Buscar participante por Cédula de Identidad' name='q' value='{{ request.GET.q }}'/>
+					<input type="submit" value="Buscar"/>					
+				</div>
+			</div>
+		</form>
+
+		
+	</div>
+
+	<div class="container">	
+		<div class="row">
+			<div class="col-sm-3">
+					<h4>Nombre</h4>
+			</div>
+			<div class="col-sm-2">
+				<h4>ID Personal</h4>
+			</div>
+			<div class="col-sm-3">
+				<h4>Curso</h4>
+			</div>
+
+			<div class="col-sm-2">
+				<h4>Teléfono</h4>
+			</div>
+
+
+		</div>
+	</div>
+
+
+	<div class="container">
+		
+	
+	{% for participante in obj %}
+		<div class="row">
+				<div class="col-sm-3">
+					<p>{{ forloop.counter }}. <a href="{{ participante.get_absolute_url }}">{{ participante.name }} {{ participante.last_name }}</a></p>
+				</div>
+				
+				<div class="col-sm-2">
+					<p>{{ participante.student_id }}</p>
+				</div>
+
+				<div class="col-sm-3">
+					<p>{{ participante.curso.nombre }}</p>
+				</div>
+
+
+				<div class="col-sm-2">
+					<p>{{ participante.phone_number }}</p>
+				</div>
+
+
+
+				<div class="col-sm-1">
+					<a href="{% url 'search:update' student_id=participante.id %}"><button>Editar</button></a>
+				</div>
+		</div>
+	{% endfor %}
+	</div>
+	
+</body>
+</html>

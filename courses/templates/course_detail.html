@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>DDOJA | Detalle de Curso</title>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+</head>
+<body>
+
+{% if messages %}
+<div class="container messages alert alert-success" role="alert">
+    {% for message in messages %}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+	
+{% if request.user.is_authenticated %}
+	<div class="container">	
+		<div class="row">
+			<div class="col-sm-9">
+				<a href="{% url 'courses:list' %}"><button class="btn btn-default" style="margin-top: 23px; position: absolute; margin-left: -50px;"><span class="glyphicon glyphicon-home" aria-hidden="true"></span></button></a>
+				<h1>Curso: {{ instance.nombre }}</h1>
+				{% if participantes %}
+				<p>Listado de Participantes. <i>Seleccione un elemento para ver su <b>certificado</b></i></p>
+			</div>
+			<div class="col-sm-2">
+				<a href="{% url 'courses:print-list' next %}" target="blank"><button class="btn btn-primary" style="float: right; margin: 25px 0px">Imprimir listado de participantes</button></a>
+			</div>
+			<div class="col-sm-1">
+				<a href="{% url 'logout' %}"><button class="btn btn-danger" style="margin-top: 25px;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button></a>
+			</div>
+
+		</div>
+		<div class="row">
+			<div class="col-sm-2">
+				<a href="{% url 'search:create-participante' next %}">
+					<button class="btn btn-default btn-info">Agregar participante</button>
+				</a>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">	
+		<div class="row">
+			<div class="col-sm-3">
+					<h4>Nombre</h4>
+			</div>
+			<div class="col-sm-2">
+				<h4>N° de Identificación</h4>
+			</div>
+			<div class="col-sm-3">
+				<h4>Email</h4>
+			</div>
+			<div class="col-sm-1">
+				<h4>Teléfono</h4>
+			</div>
+		</div>
+	</div>
+
+	
+	<div class="container">	
+		
+		{% for participante in participantes %}
+			
+			<div class="row">
+			
+				<div class="col-sm-3">
+					<p>{{ forloop.counter }}. <a href="{{ participante.get_absolute_url }}">{{ participante.name }} {{ participante.last_name }}</a></p>
+				</div>
+				
+				<div class="col-sm-2">
+					<p>{{ participante.student_id }}</p>
+				</div>
+
+				<div class="col-sm-3">
+					<p>{{ participante.email }}</p>
+				</div>
+
+				<div class="col-sm-1">
+					<p>{{ participante.phone_number }}</p>
+				</div>
+
+				<div class="col-sm-1">
+					<a href="{% url 'search:update' student_id=participante.id %}"><button>Editar</button></a>
+				</div>
+
+				<div class="col-sm-1">
+					<a href="{% url 'search:delete' student_id=participante.id %}"><button>Eliminar</button></a>
+				</div>
+
+			</div>
+
+		{% endfor %}
+
+	</div>
+
+	{% else %}
+		</div>
+		<div class="col-sm-2">
+			<a href="{% url 'search:create-participante' next %}">
+				<button class="btn btn-default btn-info" style="float: right; margin: 25px 0px">Agregar participante</button>
+			</a>
+		</div>
+		<div class="col-sm-1">
+			<a href="{% url 'logout' %}"><button class="btn btn-danger" style="margin-top: 25px;"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span></button></a>
+		</div>
+			
+				{% endif %}
+
+{% else %}
+
+<h1>Lo sentimos, no tiene permiso para ver esta página. Intente hacer login</h1>
+
+{% endif %}
+
+	<script 
+		src="https://code.jquery.com/jquery-3.4.1.min.js" 
+		integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" 
+		crossorigin="anonymous">
+	</script>
+
+	<script 
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+		integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+		crossorigin="anonymous">
+	</script>
+
+<script type="text/javascript">
+	window.setTimeout(function() {
+    $(".alert").fadeTo(500, 0).slideUp(500, function(){
+        $(this).remove(); 
+    });
+	}, 4000);
+</script>
+
+
+</body>
+</html>

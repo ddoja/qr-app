@@ -1,0 +1,7 @@
+*.py[code]
+__pycache__/
+*.class
+
+migrations/
+
+*.sqlite3
